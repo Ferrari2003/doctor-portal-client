@@ -6,10 +6,12 @@ import Main from "../../Layout/Main";
 import Appointment from "../../Pages/Appointment/Appointment/Appointment";
 import AddDoctors from "../../Pages/Dashbord/AddDoctors/AddDoctors";
 import AllUser from "../../Pages/Dashbord/AllUser/AllUser";
+import Payment from "../../Pages/Dashbord/Dashbord/Payment/Payment";
 import ManageDoctors from "../../Pages/Dashbord/ManageDoctors/ManageDoctors";
 import MyAppointment from "../../Pages/Dashbord/MayAppointment/MyAppointment";
 import Home from "../../Pages/Home/Home/Home";
 import Login from "../../Pages/Login/Login";
+import DisplayError from "../../Pages/Shared/DisplayError/DisplayError";
 import SingUp from "../../Pages/Sing Up/SingUp";
 import AdminRoutes from "../AdminRoutes/AdminRoutes";
 import PrivateRoutes from "../PrivateRoutes/PrivateRoutes";
@@ -18,6 +20,7 @@ import PrivateRoutes from "../PrivateRoutes/PrivateRoutes";
     {
         path:'/',
         element:<Main></Main>,
+        errorElement:<DisplayError></DisplayError>,
         children: [
             {
                 path:'/',
@@ -40,6 +43,7 @@ import PrivateRoutes from "../PrivateRoutes/PrivateRoutes";
     {
         path:'/dashboard',
         element:<PrivateRoutes><DashboardLayout></DashboardLayout></PrivateRoutes>,
+        errorElement:<DisplayError></DisplayError>,
         children:[
             {
                 path:'/dashboard',
@@ -56,6 +60,11 @@ import PrivateRoutes from "../PrivateRoutes/PrivateRoutes";
             {
                 path:'/dashboard/managedoctors',
                 element:<AdminRoutes><ManageDoctors></ManageDoctors></AdminRoutes>
+            },
+            {
+                path:'/dashboard/payment/:id',
+                element:<AdminRoutes><Payment></Payment></AdminRoutes>,
+                loader:({params})=> fetch(`http://localhost:5000/bookings/${params.id}`)
             }
         ]
     }
